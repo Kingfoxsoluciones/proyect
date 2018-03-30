@@ -40,27 +40,35 @@ function signUp (req, res){
 }
 
 function login (req, res){
-    User.findOne({ email: req.body.email }, function(err, user){
-        if (err) throw err;
-        
-        //var uno = user.email;
-        //var dos = req.body.email
-
-        user.comparePassword(req.body.password, function(err, isMatch) {
-            if(err) return err
-            if(isMatch){
-                return res.status(200).json({
-                    message: "Auth successful",
-                    token: service.createToken(user)
-                });
-            }else{
-                return res.status(401).json({
-                    message: "La contraseña es incorrecta"
-                });
-            }      
-        });
-        
+    User.findOne({ email: req.body.email })
+    .exec()
+    .then(user => {
+        if (!user) {
+            return res.status(401).json({
+              message: "email invalido"
+            });
+        } else {
+            user.comparePassword(req.body.password, function(err, isMatch) {
+                if(err) return err
+                if(isMatch){
+                    return res.status(200).json({
+                        message: "Auth successful",
+                        token: service.createToken(user)
+                    });
+                }else{
+                    return res.status(401).json({
+                        message: "La contraseña es incorrecta"
+                    });
+                }      
+            });
+        }
     })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          error: err
+        });
+    });
 }
 
 
