@@ -4,10 +4,13 @@ const User = require('../models/user');
 const service = require('../services');
 const bcrypt = require("bcrypt");
 
+//method registers
 function signUp (req, res){
     User.find({email: req.body.email})
     .exec()
     .then(user => {
+        // Validate if the email already exists in the database
+        // In case the registration process is successful, a token and a message are returned
         if (user.length >= 1){
             return res.status(409).json({
                 message: "Mail exists"
@@ -23,11 +26,12 @@ function signUp (req, res){
             .save()
             .then(result => {
                 console.log(result);
-                res.status(201).send({ token: service.createToken(user)});
+                res.status(201).send({message: "Auth successful",
+                     token: service.createToken(user)});
             })
             .catch(err => {
                 console.log(err);
-                res.status(500).send({ message: `Error al crear el usuario: ${err}`});
+                res.status(500).send({ message: `Error creating the user: ${err}`});
             });
         }
     })
@@ -39,16 +43,21 @@ function signUp (req, res){
     });
 }
 
+//method login 
 function login (req, res){
     User.findOne({ email: req.body.email })
     .exec()
     .then(user => {
+        //validates that the user is different from null, that is to say that the mail is valid
         if (!user) {
             return res.status(401).json({
-              message: "email invalido"
+              message: "email invalid"
             });
         } else {
-            user.comparePassword(req.body.password, function(err, isMatch) {
+            // Compare the password, to decrypt it
+            // This method is internal to the bcrypt library
+            // If all the data is correct, it returns a message and the token that is called from the services folder
+            user.comparePassword(req.body.password, function(err, isMatch) { 
                 if(err) return err
                 if(isMatch){
                     return res.status(200).json({
@@ -57,7 +66,7 @@ function login (req, res){
                     });
                 }else{
                     return res.status(401).json({
-                        message: "La contraseña es incorrecta"
+                        message: "Password is incorrect"
                     });
                 }      
             });
