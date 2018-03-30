@@ -8,7 +8,7 @@ import { DataService } from './data.service';
 })
 export class AppComponent {
   
-  private email:string;
+  /*private email:string;
   private displayName:string;
   private password:string;
 
@@ -20,5 +20,5 @@ export class AppComponent {
     this.dataService.addCourses(this.email, this.displayName, this.password).subscribe(res=>{
       console.log(res);
     });
-  }
+  }*/
 }

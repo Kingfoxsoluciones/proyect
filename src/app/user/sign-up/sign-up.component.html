@@ -1,0 +1,23 @@
+<form class="col s12 white" #userRegistrationForm="ngForm" (ngSubmit)="OnSubmit(userRegistrationForm)">
+  <div class="row">
+    <div class="input-field col s6">
+      <input class="validate" type="email" name="email"  [(ngModel)]="email" [pattern]="emailPattern">
+      <label data-error="Invalid email!">Email</label>
+    </div>
+    <div class="input-field col s6">
+      <input class="validate" type="password" name="password" [(ngModel)]="password" required minlength="3">
+      <label [attr.data-error]="password.errors!=null?(password.errors.required?'Required field!':'Minimum 3 characters needed'):''">Password</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <input type="text" name="displayName" [(ngModel)]="displayName">
+      <label>Name</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <button class="btn-large btn-submit" type="submit" (click)="onAdd()">Submit</button>
+    </div>
+  </div>
+</form>
