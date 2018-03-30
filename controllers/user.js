@@ -46,7 +46,7 @@ function login (req, res){
         //var uno = user.email;
         //var dos = req.body.email
 
-        user.comparePassword(req.body.password, req.body.email, function(err, isMatch) {
+        user.comparePassword(req.body.password, function(err, isMatch) {
             if(err) return err
             if(isMatch){
                 return res.status(200).json({
