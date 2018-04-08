@@ -1,23 +1,30 @@
 <form class="col s12 white" #userRegistrationForm="ngForm" (ngSubmit)="OnSubmit(userRegistrationForm)">
-  <div class="row">
-    <div class="input-field col s6">
-      <input class="validate" type="email" name="email"  [(ngModel)]="email" [pattern]="emailPattern">
-      <label data-error="Invalid email!">Email</label>
-    </div>
-    <div class="input-field col s6">
-      <input class="validate" type="password" name="password" [(ngModel)]="password" required minlength="3">
-      <label [attr.data-error]="password.errors!=null?(password.errors.required?'Required field!':'Minimum 3 characters needed'):''">Password</label>
-    </div>
+  <div class="form-group">
+    <label data-error="Invalid email!">Email</label>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1"><i class="material-icons prefix">email</i></span>
+        </div>
+        <input class="validate form-control" type="email" name="email"[(ngModel)]="email" [pattern]="emailPattern" aria-label="Email" aria-describedby="basic-addon1" required placeholder="Email">
+    </div> 
   </div>
-  <div class="row">
-    <div class="input-field col s12">
-      <input type="text" name="displayName" [(ngModel)]="displayName">
-      <label>Name</label>
-    </div>
+  <div class="form-group">
+    <label [attr.data-error]="password.errors!=null?(password.errors.required?'Required field!':'Minimum 3 characters needed'):''">Password</label>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon2"><i class="material-icons prefix">vpn_key</i></span>
+        </div>
+        <input class="validate form-control" type="password" name="password" [(ngModel)]="password" required minlength="3" aria-label="Password" aria-describedby="basic-addon2" placeholder="Password">
+    </div> 
   </div>
-  <div class="row">
-    <div class="input-field col s12">
-      <button class="btn-large btn-submit" type="submit" (click)="onAdd()">Submit</button>
-    </div>
+  <div class="form-group">
+    <label>Name</label>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon3"><i class="material-icons prefix">account_box</i></span>
+        </div>
+        <input class="form-control" type="text" name="displayName" [(ngModel)]="displayName" required minlength="3" aria-label="Name" aria-describedby="basic-addon3" placeholder="Name">
+    </div> 
   </div>
+  <button class="btn btn-primary btn-lg" type="submit" (click)="onAdd()">Submit</button>
 </form>
